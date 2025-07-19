@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="John Doe">
+
+
+
+
+
+<title>Hexo</title>
+
+
+
+    <link rel="icon" href="/qq.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const pagebody = document.getElementsByTagName('body')[0]
+
+            function setTheme(status) {
+
+                if (status === 'dark') {
+                    window.sessionStorage.theme = 'dark'
+                    pagebody.classList.add('dark-theme');
+
+                } else if (status === 'light') {
+                    window.sessionStorage.theme = 'light'
+                    pagebody.classList.remove('dark-theme');
+                }
+            };
+
+            setTheme(window.sessionStorage.theme)
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">芊星</a></div>
+            <div class="menu navbar-right">
+                
+                <a class="menu-item" href="/archives">Posts</a>
+                
+                <a class="menu-item" href="/category">Categories</a>
+                
+                <a class="menu-item" href="/tag">Tags</a>
+                
+                <a class="menu-item" href="/about">About</a>
+                
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">芊星</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"/></svg>
+                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols Light by Google - https://github.com/google/material-design-icons/blob/master/LICENSE --><path fill="currentColor" d="m12 12.708l-5.246 5.246q-.14.14-.344.15t-.364-.15t-.16-.354t.16-.354L11.292 12L6.046 6.754q-.14-.14-.15-.344t.15-.364t.354-.16t.354.16L12 11.292l5.246-5.246q.14-.14.345-.15q.203-.01.363.15t.16.354t-.16.354L12.708 12l5.246 5.246q.14.14.15.345q.01.203-.15.363t-.354.16t-.354-.16z"/></svg>
+                </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                <a class="menu-item" href="/archives">Posts</a>
+                
+                <a class="menu-item" href="/category">Categories</a>
+                
+                <a class="menu-item" href="/tag">Tags</a>
+                
+                <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if (toggleMenu.classList.contains("active")) {
+            toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        } else {
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title"></h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 19, 2025&nbsp;&nbsp;23:26:50</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><img src="https://socialify.git.ci/AabyssZG/SpringBoot-Scan/image?description=1&descriptionEditable=Open%20source%20penetration%20framework%20for%20SpringBoot%20and%20high-risk%20vulnerability%20exploitation%20tools%20related%20to%20Spring&font=Rokkitt&forks=1&issues=1&language=1&logo=https://avatars.githubusercontent.com/u/54609266?v=4&name=1&owner=1&pattern=Circuit%20Board&stargazers=1&theme=Dark" alt="SpringBoot-Scan"></p>
+<h1 id="✈️-一、工具概述"><a href="#✈️-一、工具概述" class="headerlink" title="✈️ 一、工具概述"></a>✈️ 一、工具概述</h1><p>日常渗透过程中，经常会碰到Spring Boot搭建的微服务，于是就想做一个针对Spring Boot的开源渗透框架，主要用作扫描Spring Boot的敏感信息泄露端点，并可以直接测试Spring的相关高危漏洞。于是，就写了这么一个工具：SpringBoot-Scan  【简称：“SB-Scan”（错乱】</p>
+<p><img src="/./SpringBoot-Scan.png" alt="SpringBoot-Scan"></p>
+<p><strong>本项目的GitCode地址：<a target="_blank" rel="noopener" href="https://gitcode.com/AabyssZG/SpringBoot-Scan">https://gitcode.com/AabyssZG/SpringBoot-Scan</a>，当前工具版本号：V2.6-2025&#x2F;03&#x2F;11</strong></p>
+<p><strong>我还整理了一篇SpringBoot的相关渗透姿势在我的个人博客，欢迎各位师傅前来交流哈哈：<a target="_blank" rel="noopener" href="https://blog.zgsec.cn/archives/129.html">https://blog.zgsec.cn/archives/129.html</a></strong></p>
+<h1 id="📝-二、TODO"><a href="#📝-二、TODO" class="headerlink" title="📝 二、TODO"></a>📝 二、TODO</h1><h2 id="漏洞支持的更新"><a href="#漏洞支持的更新" class="headerlink" title="漏洞支持的更新"></a>漏洞支持的更新</h2><ul>
+<li><input checked="" disabled="" type="checkbox"> 添加支持2023 JeeSpringCloud 任意文件上传漏洞</li>
+<li><input checked="" disabled="" type="checkbox"> 添加支持CVE-2022-22947 (Spring Cloud Gateway SpELRCE漏洞)</li>
+<li><input checked="" disabled="" type="checkbox"> 添加支持CVE-2022-22963 (Spring Cloud Function SpEL RCE漏洞)</li>
+<li><input checked="" disabled="" type="checkbox"> 添加支持CVE-2022-22965 (Spring Core RCE漏洞)</li>
+<li><input checked="" disabled="" type="checkbox"> 添加支持CVE-2021-21234 (任意文件读取漏洞)</li>
+<li><input checked="" disabled="" type="checkbox"> 添加支持2021 SnakeYAML_RCE 漏洞</li>
+<li><input checked="" disabled="" type="checkbox"> 添加支持2021 Eureka_Xstream 反序列化漏洞</li>
+<li><input checked="" disabled="" type="checkbox"> 添加支持2020 Jolokia配置不当导致RCE漏洞</li>
+<li><input checked="" disabled="" type="checkbox"> 添加支持CVE-2018-1273（Spring Data Commons RCE漏洞）</li>
+<li><input checked="" disabled="" type="checkbox"> 增加漏洞利用选择模块，可以选择单一或多个漏洞进行检测</li>
+<li><input checked="" disabled="" type="checkbox"> 命令执行漏洞式支持交互式执行命令</li>
+<li><input checked="" disabled="" type="checkbox"> 增加批量漏洞验证模块（你们一直想要的来啦）</li>
+</ul>
+<p>后期将加入更多漏洞利用内置模块（各位师傅能不能赏个Star嘛~ 码代码挺辛苦的哈哈）</p>
+<h2 id="功能支持的更新"><a href="#功能支持的更新" class="headerlink" title="功能支持的更新"></a>功能支持的更新</h2><ul>
+<li><input checked="" disabled="" type="checkbox"> 感谢 <a target="_blank" rel="noopener" href="https://github.com/ThumpBo"><code>@ThumpBo</code></a> 师傅提出的建议，增加了读取指定TXT批量扫描敏感文件的功能 <code>-df</code> 并将扫描成功结果导出至 <code>dumpout.txt</code> 内</li>
+<li><input checked="" disabled="" type="checkbox"> 对下载敏感文件的模块进行报错优化，将报错内容并入至 <code>error.log</code></li>
+<li><input checked="" disabled="" type="checkbox"> 感谢 <a target="_blank" rel="noopener" href="https://github.com/YanXi9999"><code>@YanXi9999</code></a> 师傅的贡献，在读取指定TXT并批量信息泄露扫描过程中，去除重复页面提高效率</li>
+<li><input checked="" disabled="" type="checkbox"> 对端点爆破模块进行优化，对页面进行Hash计算，如果发现页面Hash相同的情况就不导入到 <code>urlout.txt</code></li>
+<li><input checked="" disabled="" type="checkbox"> 在目录爆破 <code>run.py</code> &#x2F;POC探测  <code>poc.py</code> &#x2F;漏洞利用 <code>vul.py</code> 这三个核心模块，新增全局变量 <code>outtime = 10</code> 可自由调整各模块HTTP访问超时时间</li>
+<li><input checked="" disabled="" type="checkbox"> 感谢 <a target="_blank" rel="noopener" href="https://github.com/VK2000"><code>@Viking</code></a> 师傅，增加了部分 <code>Dir.txt</code> 敏感端点爆破字典的内容</li>
+<li><input checked="" disabled="" type="checkbox"> 感谢 <a target="_blank" rel="noopener" href="https://github.com/WingBy-Fkalis"><code>@Fkalis</code></a> 师傅，使用 <code>aiohttp</code> 对批量信息泄露扫描进行并发处理，大大提高 <code>-uf</code> 参数的扫描速度</li>
+<li><input checked="" disabled="" type="checkbox"> 新增支持多个参数自定义HTTP头部（请求头）进行操作，功能实现啦，快来试试吧~</li>
+<li><input checked="" disabled="" type="checkbox"> 新增支持资产测绘导出的时候自定义查询语句，更加灵活的导出目标资产数据</li>
+<li><input checked="" disabled="" type="checkbox"> 新增在敏感端点爆破爆破（单一和批量）的时候进行延时扫描，防止扫描速度太快被拦截</li>
+<li><input checked="" disabled="" type="checkbox"> 新增 <a target="_blank" rel="noopener" href="https://hunter.qianxin.com/">Hunter资产测绘</a> 导出模块，自动对接API接口将资产导出至 <code>hunterout.txt</code></li>
+<li><input checked="" disabled="" type="checkbox"> 新增 <a target="_blank" rel="noopener" href="https://fofa.info/">Fofa资产测绘</a> 导出模块，自动对接API接口将资产导出至 <code>fofaout.txt</code></li>
+<li><input checked="" disabled="" type="checkbox"> 新增 <a target="_blank" rel="noopener" href="https://www.zoomeye.org/">ZoomEye资产测绘</a> 导出模块，自动对接API接口将资产导出至 <code>zoomout.txt</code></li>
+<li><input checked="" disabled="" type="checkbox"> 在Spring端点爆破的时候，新增过滤一些无效回显的页面，提高工作效率</li>
+<li><input checked="" disabled="" type="checkbox"> 对端点爆破字典进行优化，增加一些绕过语句，如果有补充欢迎提交</li>
+<li><input checked="" disabled="" type="checkbox"> 支持自动对Spring进行指纹识别</li>
+<li><input checked="" disabled="" type="checkbox"> 在漏洞利用模块，对错误进行输出为 <code>error.log</code></li>
+<li><input checked="" disabled="" type="checkbox"> 支持使用带认证的HTTP代理节点，自动检测节点状态</li>
+<li><input checked="" disabled="" type="checkbox"> 由 <a target="_blank" rel="noopener" href="https://github.com/13exp"><code>@13exp</code></a> 师傅友情制作GUI图形化版本</li>
+<li><input checked="" disabled="" type="checkbox"> 验证代理是否存活，并可以使用HTTP代理认证，支持使用HTTP&#x2F;HTTPS代理所有流量</li>
+<li><input checked="" disabled="" type="checkbox"> 随机User-Agent请求头</li>
+<li><input checked="" disabled="" type="checkbox"> 解决SSL证书问题 (自签名证书请改成 <code>http://</code> 即可)</li>
+<li><input checked="" disabled="" type="checkbox"> 智能识别目标地址 (<code>example.com</code> 和<code>http://example.com/</code> 以及<code>http://example.com</code> 都不会报错)</li>
+</ul>
+<h2 id="注明"><a href="#注明" class="headerlink" title="注明"></a>注明</h2><ul>
+<li><strong>本工具优化了使用者体验，不管是对单一URL扫描还是读取TXT进行批量扫描，<code>example.com</code> 和<code>http://example.com/</code> 以及<code>http://example.com</code> 都不会报错，程序会自行判断并识别</strong></li>
+<li><strong>解决了SSL证书问题，可以对采用SSL证书的Spring Boot框架进行扫描（自签名证书请改成 <code>http://</code> 即可）</strong></li>
+<li><strong>对于二级目录部署的Spring项目，直接给工具相应的路径就行了（比如 <code>example.com/test/</code> 这个路径部署了Spring项目，那直接将 <code>example.com/test/</code> 传参给工具就行了）</strong></li>
+</ul>
+<p><strong>GUI图形化版本，由 <a target="_blank" rel="noopener" href="https://github.com/13exp"><code>@13exp</code></a> 师傅友情制作，GUI地址：<a target="_blank" rel="noopener" href="https://github.com/13exp/SpringBoot-Scan-GUI">https://github.com/13exp/SpringBoot-Scan-GUI</a></strong></p>
+<p><img src="/./pic/GUI.png" alt="GUI"></p>
+<p><strong>注：因为本项目的 <code>vul.py</code> 和GUI项目均包含漏洞利用模块，杀软报毒和查杀为正常情况。如果觉得工具不错，师傅们可以点个Star哈哈~</strong></p>
+<h1 id="🚨-三、安装Python依赖库"><a href="#🚨-三、安装Python依赖库" class="headerlink" title="🚨 三、安装Python依赖库"></a>🚨 三、安装Python依赖库</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
+
+<p>如果pip安装速度慢，可以采用国内源进行安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/</span><br></pre></td></tr></table></figure>
+
+<h1 id="🐉-四、工具使用"><a href="#🐉-四、工具使用" class="headerlink" title="🐉 四、工具使用"></a>🐉 四、工具使用</h1><p>如何找到互联网上的Spring框架，ZoomEye语法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app:&quot;Spring Framework&quot;</span><br></pre></td></tr></table></figure>
+
+<p>Fofa语法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">icon_hash=&quot;116323821&quot;||body=&quot;Whitelabel Error Page&quot;</span><br></pre></td></tr></table></figure>
+
+<p>本工具的参数如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"># python3 SpringBoot-Scan.py</span><br><span class="line">  ______                       __                      _______                        __     </span><br><span class="line"> /      \                     |  \                    |       \                      |  \    </span><br><span class="line">|  $$$$$$\  ______    ______   \$$ _______    ______  | $$$$$$$\  ______    ______  _| $$_   </span><br><span class="line">| $$___\$$ /      \  /      \ |  \|       \  /      \ | $$__/ $$ /      \  /      \|   $$ \  </span><br><span class="line"> \$$    \ |  $$$$$$\|  $$$$$$\| $$| $$$$$$$\|  $$$$$$\| $$    $$|  $$$$$$\|  $$$$$$\\$$$$$$  </span><br><span class="line"> _\$$$$$$\| $$  | $$| $$   \$$| $$| $$  | $$| $$  | $$| $$$$$$$\| $$  | $$| $$  | $$ | $$ __ </span><br><span class="line">|  \__| $$| $$__/ $$| $$      | $$| $$  | $$| $$__| $$| $$__/ $$| $$__/ $$| $$__/ $$ | $$|  \</span><br><span class="line"> \$$    $$| $$    $$| $$      | $$| $$  | $$ \$$    $$| $$    $$ \$$    $$ \$$    $$  \$$  $$</span><br><span class="line">  \$$$$$$ | $$$$$$$  \$$       \$$ \$$   \$$ _\$$$$$$$ \$$$$$$$   \$$$$$$   \$$$$$$    \$$$$ </span><br><span class="line">          | $$                              |  \__| $$                                       </span><br><span class="line">          | $$                               \$$    $$   [+] V2.6-2025年 蛇年新春贺岁版     </span><br><span class="line">           \$$                                \$$$$$$    [+] 感谢一路上支持和关注我们的师傅  </span><br><span class="line">            ______                                                                           </span><br><span class="line">           /      \                                  +-------------------------------------+ </span><br><span class="line">          |  $$$$$$\  _______  ______   _______      + Version: 2.6                        + </span><br><span class="line">          | $$___\$$ /       \|      \ |       \     + Author: 曾哥(@AabyssZG)             + </span><br><span class="line">           \$$    \ |  $$$$$$$ \$$$$$$\| $$$$$$$\    + Whoami: https://github.com/AabyssZG + </span><br><span class="line">           _\$$$$$$\| $$      /      $$| $$  | $$    +-------------------------------------+ </span><br><span class="line">          |  \__| $$| $$_____|  $$$$$$$| $$  | $$    + 多进程速度提升: Fkalis              + </span><br><span class="line">           \$$    $$ \$$     \\$$    $$| $$  | $$    + Whoami: github.com/WingBy-Fkalis    + </span><br><span class="line">            \$$$$$$   \$$$$$$$ \$$$$$$$ \$$   \$$    +-------------------------------------+ </span><br><span class="line"></span><br><span class="line">用法:</span><br><span class="line">        对单一URL进行信息泄露扫描:         python3 SpringBoot-Scan.py -u http://example.com/</span><br><span class="line">        读取目标TXT进行批量信息泄露扫描:   python3 SpringBoot-Scan.py -uf url.txt</span><br><span class="line">        对单一URL进行漏洞扫描:             python3 SpringBoot-Scan.py -v http://example.com/</span><br><span class="line">        读取目标TXT进行批量漏洞扫描：      python3 SpringBoot-Scan.py -vf url.txt</span><br><span class="line">        扫描并下载SpringBoot敏感文件:      python3 SpringBoot-Scan.py -d http://example.com/</span><br><span class="line">        读取目标TXT进行批量敏感文件扫描:   python3 SpringBoot-Scan.py -df url.txt</span><br><span class="line">        使用HTTP代理并自动进行连通性测试:    python3 SpringBoot-Scan.py -p &lt;代理IP:端口&gt;</span><br><span class="line">        从TXT文件中导入自定义HTTP头部:       python3 SpringBoot-Scan.py -t header.txt</span><br><span class="line">        通过ZoomEye密钥进行API下载数据:      python3 SpringBoot-Scan.py -z &lt;ZoomEye的API-KEY&gt;</span><br><span class="line">        通过Fofa密钥进行API下载数据:         python3 SpringBoot-Scan.py -f &lt;Fofa的API-KEY&gt;</span><br><span class="line">        通过Hunter密钥进行API下载数据:       python3 SpringBoot-Scan.py -y &lt;Hunter的API-KEY&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="🛸-五、工具演示"><a href="#🛸-五、工具演示" class="headerlink" title="🛸 五、工具演示"></a>🛸 五、工具演示</h1><h2 id="0-Spring资产测绘"><a href="#0-Spring资产测绘" class="headerlink" title="0# Spring资产测绘"></a>0# Spring资产测绘</h2><h3 id="通过ZoomEye进行Spring资产测绘"><a href="#通过ZoomEye进行Spring资产测绘" class="headerlink" title="通过ZoomEye进行Spring资产测绘"></a>通过ZoomEye进行Spring资产测绘</h3><p>本工具专门对接了 <a target="_blank" rel="noopener" href="https://www.zoomeye.org/doc">ZoomEye的API接口</a>，使用API-KEY即可批量下载Spring的资产测绘数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 SpringBoot-Scan.py -z &lt;ZoomEye的API-KEY&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./pic/ZoomEye.png" alt="ZoomEye"></p>
+<p><strong>注：目前该模块已经支持自定义语法的资产测绘导出；资产测绘结束后，会把通过API下载的结果导出到 <code>zoomout.txt</code>，就可以使用其他参数进行操作啦</strong></p>
+<h3 id="通过Fofa进行Spring资产测绘"><a href="#通过Fofa进行Spring资产测绘" class="headerlink" title="通过Fofa进行Spring资产测绘"></a>通过Fofa进行Spring资产测绘</h3><p>本工具专门对接了 <a target="_blank" rel="noopener" href="https://fofa.info/api">Fofa的API接口</a>，使用API-KEY即可批量下载Spring的资产测绘数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 SpringBoot-Scan.py -f &lt;Fofa的API-KEY&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./pic/Fofa.png" alt="Fofa"></p>
+<p><strong>注：目前该模块已经支持自定义语法的资产测绘导出；资产测绘结束后，会把通过API下载的结果导出到 <code>fofaout.txt</code>，就可以使用其他参数进行操作啦</strong></p>
+<h3 id="通过Hunter鹰图进行Spring资产测绘"><a href="#通过Hunter鹰图进行Spring资产测绘" class="headerlink" title="通过Hunter鹰图进行Spring资产测绘"></a>通过Hunter鹰图进行Spring资产测绘</h3><p>本工具专门对接了 <a target="_blank" rel="noopener" href="https://hunter.qianxin.com/home/helpCenter?r=5-1-2">鹰图的API接口</a>，使用API-KEY即可批量下载Spring的资产测绘数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 SpringBoot-Scan.py -y &lt;Hunter的API-KEY&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./pic/Hunter.png" alt="Hunter"></p>
+<p><strong>注：目前该模块已经支持自定义语法的资产测绘导出；资产测绘结束后，会把通过API下载的结果导出到 <code>hunterout.txt</code>，就可以使用其他参数进行操作啦</strong></p>
+<h2 id="1-测试并使用代理和自定义HTTP头部"><a href="#1-测试并使用代理和自定义HTTP头部" class="headerlink" title="1# 测试并使用代理和自定义HTTP头部"></a>1# 测试并使用代理和自定义HTTP头部</h2><h3 id="测试并使用代理"><a href="#测试并使用代理" class="headerlink" title="测试并使用代理"></a>测试并使用代理</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3 SpringBoot-Scan.py -p &lt;代理IP:端口&gt;</span><br><span class="line">python3 SpringBoot-Scan.py -p &lt;HTTP认证账号:HTTP认证密码@代理IP:端口&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./pic/%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%90%86.png" alt="测试代理"></p>
+<p>比如我想对单一URL进行信息泄露扫描并使用代理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3 SpringBoot-Scan.py -u example.com -p &lt;代理IP:端口&gt;</span><br><span class="line">python3 SpringBoot-Scan.py -p &lt;HTTP认证账号:HTTP认证密码@代理IP:端口&gt;</span><br></pre></td></tr></table></figure>
+<p>同样，其他参数（<code>-u</code> &#x2F; <code>-uf</code> &#x2F; <code>-v</code> &#x2F; <code>-vf</code> &#x2F; <code>-d</code>）均可以配合代理使用</p>
+<h3 id="测试并使用自定义HTTP头部（自定义请求头）"><a href="#测试并使用自定义HTTP头部（自定义请求头）" class="headerlink" title="测试并使用自定义HTTP头部（自定义请求头）"></a>测试并使用自定义HTTP头部（自定义请求头）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 SpringBoot-Scan.py -t header.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./pic/Headers.png" alt="Headers"></p>
+<p>使用该自定义HTTP头部功能请自行更改 <code>header.txt</code> 内的内容，允许（<code>-u</code> &#x2F; <code>-uf</code> &#x2F; <code>-v</code> &#x2F; <code>-d</code>）参数使用，因为批量漏洞扫描没有明确需求故没加入该功能</p>
+<h2 id="2-对单一URL进行敏感端点爆破"><a href="#2-对单一URL进行敏感端点爆破" class="headerlink" title="2# 对单一URL进行敏感端点爆破"></a>2# 对单一URL进行敏感端点爆破</h2><p><code>Dir.txt</code> 为内置的Spring端点爆破字典，我基本收集齐了Spring Boot的相关敏感信息泄露端点</p>
+<p>如果有遗漏，欢迎各位师傅跟我联系哈哈</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 SpringBoot-Scan.py -u example.com</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./pic/%E6%89%AB%E6%8F%8F%E5%8D%95%E4%B8%80URL.png" alt="扫描单一URL"></p>
+<p>新增延时扫描选项，如果不想延时扫描输入 <code>0</code> 回车即可</p>
+<p><strong>注：扫描结束后，会把成功的结果导出为同目录下的 <code>urlout.txt</code></strong></p>
+<h2 id="3-读取目标TXT进行批量信息泄露扫描"><a href="#3-读取目标TXT进行批量信息泄露扫描" class="headerlink" title="3# 读取目标TXT进行批量信息泄露扫描"></a>3# 读取目标TXT进行批量信息泄露扫描</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 SpringBoot-Scan.py -uf url.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./pic/%E8%AF%BB%E5%8F%96TXT%E5%B9%B6%E6%89%B9%E9%87%8F%E6%89%AB%E6%8F%8F.png" alt="读取TXT并批量扫描"></p>
+<p>新增延时扫描选项，如果不想延时扫描输入 <code>0</code> 回车即可；感谢 <a target="_blank" rel="noopener" href="https://github.com/FFR66"><code>@Fkalis</code></a> 师傅，新增并发扫描选项，默认并发数为10</p>
+<p><strong>注：由于版本更新，在2.21版本之后，读取TXT并扫描的参数改为 <code>uf</code>，扫描结束后，会把成功的结果导出为同目录下的 <code>output.txt</code></strong></p>
+<h2 id="4-对单一URL进行漏洞利用"><a href="#4-对单一URL进行漏洞利用" class="headerlink" title="4# 对单一URL进行漏洞利用"></a>4# 对单一URL进行漏洞利用</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 SpringBoot-Scan.py -v example.com</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./pic/%E5%AF%B9%E5%8D%95%E4%B8%80URL%E8%BF%9B%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8.png" alt="对单一URL进行漏洞利用"></p>
+<p>已经实现RCE漏洞，命令自定义功能（不要拿去干坏事哦）</p>
+<p><strong>同时，后期将加入更多漏洞利用内置模块，请师傅们敬请期待~</strong></p>
+<h2 id="5-读取目标TXT进行批量漏洞扫描"><a href="#5-读取目标TXT进行批量漏洞扫描" class="headerlink" title="5# 读取目标TXT进行批量漏洞扫描"></a>5# 读取目标TXT进行批量漏洞扫描</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 SpringBoot-Scan.py -vf url.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./pic/Poc.png" alt="Poc"></p>
+<p>可以自由选择漏洞库里面的漏洞进行批量验证，扫描结束后将导出成功的内容至 <code>vulout.txt</code> 内</p>
+<h2 id="6-扫描并下载SpringBoot敏感文件"><a href="#6-扫描并下载SpringBoot敏感文件" class="headerlink" title="6# 扫描并下载SpringBoot敏感文件"></a>6# 扫描并下载SpringBoot敏感文件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 SpringBoot-Scan.py -d example.com</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./pic/%E6%89%AB%E6%8F%8F%E5%B9%B6%E4%B8%8B%E8%BD%BDSpringBoot%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6.png" alt="扫描并下载SpringBoot敏感文件"></p>
+<p><strong>注：扫描到的敏感文件，会自动下载到脚本的运行目录，有进度条可以看到实时下载进度</strong></p>
+<p>目前敏感文件目录内置了5个，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">actuator/heapdump</span><br><span class="line">gateway/actuator/heapdump</span><br><span class="line">heapdump</span><br><span class="line">heapdump.json</span><br><span class="line">hystrix.stream</span><br><span class="line">artemis-portal/artemis/heapdump</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-读取目标TXT进行批量敏感文件扫描"><a href="#7-读取目标TXT进行批量敏感文件扫描" class="headerlink" title="7# 读取目标TXT进行批量敏感文件扫描"></a>7# 读取目标TXT进行批量敏感文件扫描</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 SpringBoot-Scan.py -df url.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./pic/%E8%AF%BB%E5%8F%96%E7%9B%AE%E6%A0%87TXT%E8%BF%9B%E8%A1%8C%E6%89%B9%E9%87%8F%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6%E6%89%AB%E6%8F%8F.png" alt="读取目标TXT进行批量敏感文件扫描"></p>
+<p>扫描结束后将导出成功的内容至 <code>dumpout.txt</code> 内</p>
+<p>如果有师傅有其他敏感文件的目录，可以提交issues，谢谢！！！</p>
+<h1 id="🖐-六、免责声明"><a href="#🖐-六、免责声明" class="headerlink" title="🖐 六、免责声明"></a>🖐 六、免责声明</h1><ol>
+<li>如果您下载、安装、使用、修改本工具及相关代码，即表明您信任本工具</li>
+<li>在使用本工具时造成对您自己或他人任何形式的损失和伤害，我们不承担任何责任</li>
+<li>如您在使用本工具的过程中存在任何非法行为，您需自行承担相应后果，我们将不承担任何法律及连带责任</li>
+<li>请您务必审慎阅读、充分理解各条款内容，特别是免除或者限制责任的条款，并选择接受或不接受</li>
+<li>除非您已阅读并接受本协议所有条款，否则您无权下载、安装或使用本工具</li>
+<li>您的下载、安装、使用等行为即视为您已阅读并同意上述协议的约束</li>
+</ol>
+<h1 id="🙏-七、感谢各位师傅"><a href="#🙏-七、感谢各位师傅" class="headerlink" title="🙏 七、感谢各位师傅"></a>🙏 七、感谢各位师傅</h1><h2 id="Stargazers"><a href="#Stargazers" class="headerlink" title="Stargazers"></a>Stargazers</h2><p><a target="_blank" rel="noopener" href="https://github.com/AabyssZG/SpringBoot-Scan/stargazers"><img src="http://reporoster.com/stars/AabyssZG/SpringBoot-Scan" alt="Stargazers repo roster for @AabyssZG&#x2F;SpringBoot-Scan"></a></p>
+<h2 id="Forkers"><a href="#Forkers" class="headerlink" title="Forkers"></a>Forkers</h2><p><a target="_blank" rel="noopener" href="https://github.com/AabyssZG/SpringBoot-Scan/network/members"><img src="http://reporoster.com/forks/AabyssZG/SpringBoot-Scan" alt="Forkers repo roster for @AabyssZG&#x2F;SpringBoot-Scan"></a></p>
+<h2 id="Star-History"><a href="#Star-History" class="headerlink" title="Star History"></a>Star History</h2><p><a target="_blank" rel="noopener" href="https://star-history.com/#AabyssZG/SpringBoot-Scan&Date"><img src="https://api.star-history.com/svg?repos=AabyssZG/SpringBoot-Scan&type=Date" alt="Star History Chart"></a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2025/07/19/README/">http://example.com/2025/07/19/README/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>手握日月摘星辰，世间无我这般人</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/07/19/hello-world/">Hello World</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
